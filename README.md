@@ -1,11 +1,3 @@
----
-author: Paul Etheimer
-date: "`\\today`{=latex}"
-documentclass: article
-lang: fr
-title: "Tutoriel : Guide de survie des ordinateurs d\\'HubIC"
----
-
 # Introduction
 
 Bienvenue dans la salle Bioinfo : voilà quelques astuces pour vous aider
