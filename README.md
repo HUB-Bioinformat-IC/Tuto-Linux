@@ -48,7 +48,7 @@ On peut écrire des commandes à sa droite. Le répertoire (dossier)
 courant (*working directory*) est celui dans lequel s\'éxecute par
 défaut la plupart des commandes de manipulations de fichier.
 
-Les répertoires sont organisé comme un arbre, commençant à la racine
+Les répertoires sont organisés comme un arbre, commençant à la racine
 (`/`). Un exemple d\'arborescence:
 
 ``` example
@@ -76,9 +76,9 @@ point est décrit par un chemin. Il en existe deux types :
 Il existe des wildcards quand on veut faire référence à des fichiers ou
 répertoires, qui permettent d\'englober plusieurs résultats :
 
--   `*`{.verbatim} n\'importe que nombre de n\'importe quel caractère
--   `?`{.verbatim} un unique caractère, n\'importe lequel
--   `[]`{.verbatim} un unique caractère parmi ceux entre crochets
+-   `*` n\'importe que nombre de n\'importe quel caractère
+-   `?` un unique caractère, n\'importe lequel
+-   `[]` un unique caractère parmi ceux entre crochets
 
 ## Commandes de base
 
@@ -98,7 +98,7 @@ répertoires, qui permettent d\'englober plusieurs résultats :
     -   `.` : répertoire actuel,
     -   `..` : répertoire parent,
     -   `~` : répertoire \'maison\', situé à
-        `/home/your_username/`{.verbatim},
+        `/home/your_username/`,
     -   `-` : répertoire précédemment visité.
 
 -   `ls` (list) liste les fichiers et dossiers du répertoire courant
@@ -147,27 +147,41 @@ répertoires, qui permettent d\'englober plusieurs résultats :
     ``` example
     find [chemin_racine_de_la_recherche] -name [nom_du_fichier]
     ```
+    
+## Privilèges administrateur
+Certaines commandes (comme celles qui installent des programmes) demandent d'avoir un compte avec des privilèges administrateurs. Il existe (souvent) un tel compte sur un ordinateur, mais afin de ne pas exécuter chaque commande avec ce privilège (ce qui serait risqué), votre compte vous permet d'exécuter une commande administrateur grace à `sudo`. Il vous faudra alors rentrer votre mot de passe.
+
+``` example
+username@hostname:~/Documents$ apt update
+Reading package lists... Done
+E: List directory /var/lib/apt/lists/partial is missing. - Acquire (13: Permission denied)
+username@hostname:~/Documents$ sudo apt update
+[sudo] password for username:
+Get:1 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+[...]
+```
+
 
 ## Combiner des commandes
 
 Il est possible de combiner des commandes via des opérateurs. Ceux-ci
 vont rediriger les flux de sorties de commandes vers soit un fichier,
-soit une autre commande. Les deux plus utiles sont `>`{.verbatim} , la
-redirection vers un fichier, et `|`{.verbatim} , le pipe. Par exemple
+soit une autre commande. Les deux plus utiles sont `>` , la
+redirection vers un fichier, et `|` , le pipe. Par exemple
 pour concaténer des fichiers dans un nouveau fichier, on peut utiliser
-`>`{.verbatim} :
+`>` :
 
 ``` example
 [username@hostname ~]$ cat fichier1.txt fichier2.txt > fichier3.txt
 ```
 
-Le pipe `|`{.verbatim} lui redirige la sortie d\'une commande vers une
+Le pipe `|` lui redirige la sortie d\'une commande vers une
 autre commande. On peut l\'utiliser pour décompresser un gros fichier et
 l\'envoyer immédiatement vers une autre commande sans stocker le gros
 fichier, décompressé, en mémoire.
 
 ``` example
-[username@hostname ~]$ gunzip fichier1.fastq.tar.gz | aligner_lambda
+[username@hostname ~]$ zcat fichier1.fastq.tar.gz | aligner_lambda
 ```
 
 
@@ -178,8 +192,8 @@ Skills* disponible dans la salle, qui donne une bonne base ainsi que
 quelques bonnes pratiques pour travailler avec R. Il ne parle que peu du
 `tidyverse` (et de manière datée), un dialecte de R spécialisé dans la
 manipulation de données sous forme de dataframe (composé principalement
-de `dplyr`{.verbatim}, `tidyr`{.verbatim}, `readr`{.verbatim} et
-`tibble`{.verbatim}). Pour cela, voir R for Data Science. D\'autres
+de `dplyr`, `tidyr`, `readr` et
+`tibble`). Pour cela, voir R for Data Science. D\'autres
 sources intéressantes sont par example :
 
 -   R for Data Science <https://r4ds.had.co.nz/> (une seconde édition
@@ -248,42 +262,28 @@ pratique avant de demander de l\'aide!
 # Installer les essentiels
 ## Installer des *packages*
 
-Je laisse compléter Benjamin? Je ne connais pas super bien Ubuntu, et je
-ne ferais que recopier un tuto sur internet.
-
-## Installer R
-
-*in progress*
+Installer des packages sous Ubuntu se fait via l'intermédiaire du gestionnaire de paquets (*package manager*) apt, soit via l'interface plus moderne `apt` ou la plus stable `apt-get`. Ces *packages manager* installent et mettent à jour les paquets depuis des dépots en ligne, différents selon la distribution Linux utilisée. C'est la manière préférentielle d'installer des logiciels et surtout des langages de programmation (comme R, Rust, LaTeX...), car leurs dépendances sont gérées. 
 
 ## Installer des applications
-*Insérer description de Flatpak et commandes pour installer flathub et des applis type zoom*
+
+Les snaps (une méthode de distribution des applications propre à Ubuntu) disponibles dans le Ubuntu Software Center permettent d'installer beaucoup d'applications (Zoom, VScode, Inkscape...). Le Flathub permet d'accéder à un choix parfois plus large/plus à jour.
 
 ## Avoir un IDE (pour autre chose que R)
 
 Il est parfois nécessaire d\'éditer des fichiers de code d\'un autre
 langage que R (oui oui ça arrive) et RStudio montre vite ses limites.
 Dans ce cas le choix par défaut, et probablement le meilleur est
-d\'utiliser Visual Studio Code de Microsoft. Il est préinstallé sur les
-machines. N\'hésitez pas à utiliser les differentes extensions
+d\'utiliser Visual Studio Code de Microsoft. Il est disponible à cette adresse : (<https://code.visualstudio.com/download>), ou via le Ubuntu Software Center. N\'hésitez pas à utiliser les differentes extensions
 (*language servers*) de VS code, par exemple Pylance pour
-`python`{.verbatim}.
+`python`, qui apporte de vraies améliorations dans le workflow et dont il est dur de se passer par la suite.
 
-Si Microsoft vous hérisse, et que vous êtes un amoureux de l\'open
-source, adorez les *vim keys*, êtes prêt à vous farcir un éditeur de
-texte de plus de 40 ans dont la liste de *features* ressemble à celle
-d\'un système d\'exploitation, alors Emacs, et surtout sa variante
-pré-configurée Doom Emacs est faite pour vous. Vous y perderez peut être
-en confort, mais gagnerez probablement la meilleure interface à
-`git`{.verbatim} (voir plus loin) qui soit (<https://magit.vc>), et le
-langage de markup le plus agréable à utiliser, org-mode
-(<https://orgmode.org>) (un très bon wrapper autour de LaTeX également,
-et bien d\'autres choses).
+Si Microsoft vous hérisse, d'autres possibilités existent, restreintes à Python comme PyCharm, ou plus généralistes, comme Sublimetext, neovim, ou encore Emacs.
 
 # S\'assurer de la reproductibilité de ses analyses, projets...
 
 ## Se servir de git
 
-Maîtriser `git`{.verbatim} est absolument essentiel pour un
+Maîtriser `git` est absolument essentiel pour un
 bioinformaticien. Les bénéfices qu\'apporte le contrôle de version sont
 innombrables, et permettent de sécuriser et tracabiliser le
 développement de n\'importe quel pipeline, outil ou analyse. Via les
@@ -294,17 +294,17 @@ le même projet.
 Une très bonne introduction à git est disponible dans le livre
 *Bioinformatics Data Skills*. Après avoir maîtrisé ces bases, il peut
 être cependant un peu pénible de toujours saisir les commandes via le
-terminal, et il existe des interfaces à `git`{.verbatim} dans la plupart
-des éditeurs, RStudio et VS code compris.
+terminal, et il existe des interfaces à `git` dans la plupart
+des éditeurs, RStudio et VScode compris.
 
 ## Se servir de conda
 
-Conda est un *package manager* alternatif à celui de votre distribution.
+Conda est un *package manager* alternatif à celui de votre distribution (`apt` dans notre cas).
 Cela permet d\'installer des packages dans des environnements
 particuliers, permettant d\'isoler et de reproduire facilement vos
 environnement de travail ou d\'exécution. Plusieurs channels (source de
 packages) sont disponibles, dont bioconda qui contient un grand nombre
-de package utiles en bioinformatique. Via une modification du \$PATH,
+de package utiles en bioinformatique. Via une modification du `\$PATH`,
 avec un environnement activé il prend la priorité sur ce qui pourrait
 être installé autrement.
 
@@ -330,7 +330,7 @@ dependencies:
 ```
 
 Cette manière de créer des environnement conda s\'intègre parfaitement
-avec `git`{.verbatim}, ce qui permet d\'augmenter la reproductibilité de
+avec `git`, ce qui permet d\'augmenter la reproductibilité de
 votre projet, en listant les packages nécessaires, voire des versions
 spécifiques. Vous remarquerez peut-être que conda est assez lent (je
 l\'ai arreté après une heure à essayer de créer l\'environnement ci
@@ -340,7 +340,8 @@ attendant l\'alternative est d\'utiliser mamba
 pour conda.
 
 ## Se servir de renv
-*wip*
+
+`renv` est un package R qui permet de gérer les versions des dépendances d'un script R. De la même manière que `conda` il s'agit d'installer les dépendances dans une autre localisation que lorsqu'on installe des packages par défaut. Et comme `conda`, il faut activer l'environnement avant de s'en servir pour installer des packages ou exécuter le script. Le fichier qui recense les dépendances et leurs versions est ici le `renv.lock`, qui est rempli et mise à jour automatiquement par renv. En effet ici il faut installer ses dépendances au fur et à mesure, soit via `renv::install()`, soit via `install.packages()` si `renv` a été activé précédemment (ce qui est automatique si `renv` a été initialisé dans ce projet), puis sauvegarder l'état du projet avec `renv::snapshot()`. La documentation de `renv` (<https://rstudio.github.io/renv/articles/renv.html>) est très complète.
 
 ## Se servir de Docker
 
@@ -368,9 +369,9 @@ distribution Linux, sur laquelle on viendra greffer les dépendances
 nécessaires à notre projet.
 
 Les images sont en général décrites sous la forme
-`owner/image_name:tag`{.verbatim} où tag est la version.
+`owner/image_name:tag` où tag est la version.
 
-Un exemple très simple de `Dockerfile`{.verbatim}, fichier qui permet de
+Un exemple très simple de `Dockerfile`, fichier qui permet de
 créer des images :
 
 ``` example
@@ -382,8 +383,8 @@ ENTRYPOINT ["python3", "-c"]
 ```
 
 Il est difficile de résumer en quelques mots comment utiliser
-Docker/podman, et leur documentation respective est détaillée et
-accessible, respectivement : <https://docs.docker.com/get-started/> et
+Docker/podman, et leurs documentations respectives sont détaillées et
+accessibles, respectivement : <https://docs.docker.com/get-started/> et
 <https://podman.io/getting-started/>.
 
 Il existe pléthore d\'images intéressantes, mais parmi elles le projet
@@ -394,10 +395,10 @@ rocker est assez utile dans le cas d\'un projet utilisant R :
 
 Un usage particulier des containers est de les utiliser comme
 environnement de test, ou comme environnement permettant de faire
-fonctionner des outils récalcitrant. Distrobox
+fonctionner des outils récalcitrants. Distrobox
 (<https://github.com/89luca89/distrobox>) permet de créer des containers
 à la volée, basés sur de nombreuses distribution de Linux. Montant par
-défaut votre `$HOME`{.verbatim} (`/home/your_username/`{.verbatim}), il
+défaut votre `$HOME` (`/home/your_username/`), il
 n\'isole pas vos fichiers mais en revanche vous évite de casser votre
 installation Ubuntu.
 
